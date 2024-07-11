@@ -15,9 +15,8 @@ students = {
 }
 
 average_grades = []
-
 for grade in grades:
-    average_grades.append(sum(grade) / len(grade))
+    average_grades.append(round(sum(grade) / len(grade), 2))
 
 students_list = list(students)
 students_list.sort()
