@@ -2,12 +2,11 @@ from threading import Thread
 from time import sleep
 
 class Knight(Thread):
-    enemies = 100
-
     def __init__(self, name: str, power: int):
         super().__init__()
         self.name = name
         self.power = power
+        self.enemies = 100
 
     def run(self):
         print(f'{self.name}, на нас напали!')
