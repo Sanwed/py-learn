@@ -1,4 +1,4 @@
-from module_12_1 import Runner
+from runner import Runner
 import unittest
 
 class RunnerTest(unittest.TestCase):
