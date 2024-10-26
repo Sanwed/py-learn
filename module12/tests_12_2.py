@@ -69,3 +69,6 @@ class TournamentTest(unittest.TestCase):
         tournament = Tournament(90, self.runner1, self.runner2, self.runner3)
         TournamentTest.all_results.append(tournament.start())
         self.assertTrue(TournamentTest.all_results[-1][max(TournamentTest.all_results[-1].keys())], 'Ник')
+
+if __name__ == '__main__':
+    unittest.main()
