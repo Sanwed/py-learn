@@ -1,8 +1,8 @@
-import email
 import sqlite3
 
 connection = sqlite3.connect('not_telegram.db')
 cursor = connection.cursor()
+
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS Users(
 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,7 +20,7 @@ def get_all():
 
 
 def add_users(amount):
-  for i in range(1, len(get_all()) + 1):
+  for i in range(1, amount):
     cursor.execute('INSERT INTO Users(username, email, age, balance) VALUES(?, ?, ?, ?)',
                    (f'User{i}', f'example{i}@gmail.com', i * 10, 1000))
 
@@ -33,12 +33,12 @@ def update_even(new_balance):
 
 def delete_every_third():
   for i in range(1, len(get_all()) + 1):
-    if i % 3 == 0:
+    if (i + 1) % 3 == 0 or i == 1:
       cursor.execute('DELETE FROM Users WHERE id = ?', (i,))
 
 
 def show_all_exclude_age(age):
-  cursor.execute('SELECT * FROM Users WHERE age < ?', (age,))
+  cursor.execute('SELECT * FROM Users WHERE NOT age = ?', (age,))
   users = cursor.fetchall()
 
   for user in users:
