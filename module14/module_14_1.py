@@ -25,20 +25,16 @@ def add_users(amount):
                    (f'User{i}', f'example{i}@gmail.com', i * 10, 1000))
 
 
-def update_even(new_balance):
-  for i in range(1, len(get_all()) + 1):
-    if i % 2 == 0:
-      cursor.execute('UPDATE Users SET balance = ? WHERE id = ?', (new_balance, i))
+def update_odd(new_balance):
+  cursor.execute('UPDATE Users SET balance = ? WHERE id % 2 = 1', (new_balance,))
 
 
 def delete_every_third():
-  for i in range(1, len(get_all()) + 1):
-    if (i + 1) % 3 == 0 or i == 1:
-      cursor.execute('DELETE FROM Users WHERE id = ?', (i,))
+  cursor.execute('DELETE FROM Users WHERE id % 3 = 1')
 
 
 def show_all_exclude_age(age):
-  cursor.execute('SELECT * FROM Users WHERE NOT age = ?', (age,))
+  cursor.execute('SELECT * FROM Users WHERE age != ?', (age,))
   users = cursor.fetchall()
 
   for user in users:
@@ -46,7 +42,7 @@ def show_all_exclude_age(age):
 
 
 add_users(10)
-update_even(500)
+update_odd(500)
 delete_every_third()
 show_all_exclude_age(60)
 
