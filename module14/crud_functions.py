@@ -12,10 +12,15 @@ def initiate_db():
     price INTEGER NOT NULL
   );
   ''')
-  cursor.execute("INSERT INTO Products (title, description, price) VALUES ('Пирожок', 'Пирожок с вареньем', 50)")
-  cursor.execute("INSERT INTO Products (title, description, price) VALUES ('Протеин', 'Белок 50%', 3000)")
-  cursor.execute("INSERT INTO Products (title, description, price) VALUES ('Креатинин', 'Запивать водой', 1500)")
-  cursor.execute("INSERT INTO Products (title, description, price) VALUES ('Кока-кола', '2 литра бутылка', 200)")
+  cursor.execute('''
+  CREATE TABLE IF NOT EXISTS Users(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    balance INTEGER NOT NULL
+  );
+  ''')
   conn.commit()
   conn.close()
 
@@ -27,3 +32,20 @@ def get_all_products():
   products = cursor.fetchall()
   conn.close()
   return products
+
+
+def add_user(username, email, age):
+  conn = sqlite3.connect('not_telegram.db')
+  cursor = conn.cursor()
+  cursor.execute('INSERT INTO Users(username, email, age, balance) VALUES(?, ?, ?, ?)', (username, email, age, 1000))
+  conn.commit()
+  conn.close()
+
+
+def is_included(username):
+  conn = sqlite3.connect('not_telegram.db')
+  cursor = conn.cursor()
+  cursor.execute('SELECT * FROM Users WHERE username = ?', (username,))
+  user = cursor.fetchone()
+  conn.close()
+  return bool(user)
